@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เติมเกมฟรี 999</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+        }
+        ol {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        li {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-container {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #success-message {
+            margin-top: 15px;
+            color: green;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- หน้าแรก: เติมเกมฟรี -->
+    <div id="game-selection">
+        <h1>เติมเกมฟรี</h1>
+        <ol>
+            <li><button onclick="showForm()">เติมโรบัคฟรี</button></li>
+            <li><button onclick="showForm()">เติมคูปองฟรี</button></li>
+            <li><button onclick="showForm()">เติมเพชรฟรี</button></li>
+            <li><button onclick="showForm()">ผลถาวรฟรี</button></li>
+            <li><button onclick="showForm()">สกินโหดฟรี</button></li>
+        </ol>
+    </div>
+
+    <!-- หน้าฟอร์มกรอกข้อมูล -->
+    <div class="form-container" id="form-container">
+        <form id="myForm" onsubmit="return showMessage()">
+            <input type="text" id="name" name="name" placeholder="ชื่อของคุณ" required>
+            <input type="password" id="password" name="password" placeholder="รหัสผ่านของคุณ" required>
+            <input type="text" id="description" name="description" placeholder="ของที่อยากได้" required>
+            <button type="submit">ส่งข้อมูล</button>
+            <p id="success-message">สำเร็จ! ของคุณจะเข้าไปในไอดีเร็วๆ นี้</p>
+        </form>
+    </div>
+
+    <script>
+        function showForm() {
+            // ซ่อนหน้าเลือกเกมและแสดงหน้าฟอร์ม
+            document.getElementById('game-selection').style.display = 'none';
+            document.getElementById('form-container').style.display = 'block';
+        }
+
+        function showMessage() {
+            // แสดงข้อความสำเร็จ
+            document.getElementById('success-message').style.display = 'block';
+
+            // ป้องกันการส่งฟอร์มและรีเฟรชหน้า
+            return false;
+        }
+    </script>
+
+</body>
+</html>
