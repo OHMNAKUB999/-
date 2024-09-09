@@ -1,24 +1,20 @@
 <?php
+header('Content-Type: application/json');
+
 // รับ IP ของผู้ส่งฟอร์ม
 $ipAddress = $_SERVER['REMOTE_ADDR'];
 
 // รับข้อมูลจากฟอร์ม
-$name = $_POST['name'];
-$email = $_POST['email'];
-$description = $_POST['description'];
-$message = $_POST['message'];
+$name = $_POST['name'] ?? '';
+$email = $_POST['email'] ?? '';
+$description = $_POST['description'] ?? '';
+$message = $_POST['message'] ?? '';
 
 // สร้างข้อความที่จะบันทึก
 $logEntry = "IP: $ipAddress\nName: $name\nEmail: $email\nDescription: $description\nMessage: $message\n\n";
 
-// กำหนดพาธไฟล์
-$logFile = 'form_submissions.txt';
-
-// ตรวจสอบและสร้างไฟล์ถ้าไม่มี
-if (!file_exists($logFile)) {
-    // สร้างไฟล์และตั้งสิทธิ์เขียน
-    file_put_contents($logFile, '');
-}
+// กำหนดพาธไฟล์ใหม่
+$logFile = 'new_form_submissions.txt';
 
 // บันทึกข้อมูลลงในไฟล์
 if (file_put_contents($logFile, $logEntry, FILE_APPEND) === false) {
@@ -30,6 +26,5 @@ if (file_put_contents($logFile, $logEntry, FILE_APPEND) === false) {
 }
 
 // ส่งข้อมูลเป็น JSON response
-header('Content-Type: application/json');
 echo json_encode($response);
 ?>
