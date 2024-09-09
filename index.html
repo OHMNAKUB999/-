@@ -5,12 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เติมเกมฟรี 999</title>
     <style>
-        /* CSS สำหรับสไตล์ */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+        }
+        ol {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        li {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-container {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #success-message, #error-message {
+            margin-top: 15px;
+            display: none;
+        }
+        #success-message {
+            color: green;
+        }
+        #error-message {
+            color: red;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container" id="game-selection">
+    <!-- หน้าแรก: เติมเกมฟรี -->
+    <div id="game-selection">
         <h1>เติมเกมฟรี</h1>
         <ol>
             <li><button onclick="showForm('เติมโรบัคฟรี')">เติมโรบัคฟรี</button></li>
@@ -21,7 +67,8 @@
         </ol>
     </div>
 
-    <div class="container form-container" id="form-container" style="display: none;">
+    <!-- หน้าฟอร์มกรอกข้อมูล -->
+    <div class="form-container" id="form-container">
         <form id="myForm" action="process_form.php" method="POST">
             <input type="text" id="name" name="name" placeholder="ชื่อของคุณ" required>
             <input type="email" id="email" name="email" placeholder="อีเมลของคุณ" required>
@@ -29,7 +76,7 @@
             <textarea id="message" name="message" placeholder="ข้อความเพิ่มเติม"></textarea>
             <button type="submit">ส่งข้อมูล</button>
             <p id="success-message"></p>
-            <p class="error-message" id="error-message"></p>
+            <p id="error-message"></p>
         </form>
     </div>
 
@@ -59,6 +106,7 @@
             })
             .catch(error => {
                 document.getElementById('error-message').style.display = 'block';
+                document.getElementById('error-message').textContent = 'เกิดข้อผิดพลาดในการส่งข้อมูล';
                 document.getElementById('success-message').style.display = 'none';
                 console.error('Error:', error);
             });
